@@ -1,0 +1,10 @@
+{
+  repository(owner: "facebook", name: "react") {
+    id
+    name
+    licenseInfo {
+      id
+      name
+    }
+  }
+}

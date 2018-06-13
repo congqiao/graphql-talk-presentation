@@ -1,0 +1,18 @@
+{
+  repository(owner: "facebook", name: "react") {
+    id
+    name
+    owner {
+      login
+      repositories(first: 3, orderBy: {field: STARGAZERS, direction: DESC}) {
+        nodes {
+          id
+          name
+          owner {
+            login
+          }
+        }
+      }
+    }
+  }
+}

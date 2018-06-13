@@ -1,49 +1,156 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+    <title>GraphQL</title>
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/serif.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h1>GraphQL</h1>
+                <div>Cong Qiao</div>
+                <div>June 15th, 2018</div>
+            </section>
+            <section>
+                <h2>Why GraphQL</h2>
+                <section>
+                    <p>Strongly Typed</p>
+                    <pre>
+                        <code data-trim>
+                            type Repository {
+                              id: ID!
+                              name: String!
+                              parent: Repository
+                              licenseInfo: License
+                            }
+
+                            type License {
+                              id: ID!
+                              body: String!
+                            }
+                        </code>
+                    </pre>
+                    <aside class="notes">
+                        The schema defines types and relationships.
+                    </aside>
+                </section>
+                <section>
+                    <pre>
+                        <code data-trim>
+                            interface Starrable {
+                              id: ID!
+                              viewerHasStarred: Boolean!
+                            }
+
+                            type Repository implements Starrable {
+                              ...
+                            }
+
+                            type Gist implements Starrable {
+                              ...
+                            }
+                        </code>
+                    </pre>
+                    <aside class="notes">
+                        A type can implement multiple interfaces.
+                    </aside>
+                </section>
+                <section>
+                    <p>Hierarchical</p>
+                    <pre>
+                        <code data-trim>
+                            type Repository {
+                              id: ID!
+                              name: String!
+                              issue(number: Int!): Issue
+                            }
+                        </code>
+                    </pre>
+                    <aside class="notes">
+                        The shape of the query mirrors the shape of the returned data. Nested fields let you query for and receive only the data
+                        you specify. Cicular reference.
+                    </aside>
+                </section>
+            </section>
+            <section>
+                <h2>Why Apollo</h2>
+                <section>
+                    <p>Polling and error handling</p>
+                </section>
+                <section>
+                    <p>Local state management</p>
+                    <pre>
+                        <code data-trim>
+                            {
+                              todos @client {
+                                id
+                                completed
+                                text
+                              }
+                            }
+                        </code>
+                    </pre>
+                </section>
+                <section>
+                    <p>Subscription through WebSocket</p>
+                    <pre>
+                        <code data-trim>
+                            type Subscription {
+                              commentAdded(repoFullName: String!): Comment
+                            }
+                        </code>
+                    </pre>
+                </section>
+                <section>
+                    <ul>
+                        <li>Optimistic UI</li>
+                        <li>Server-side rendering</li>
+                        <li>...</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <h1>Thank you!</h1>
+            </section>
+        </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+        // More info about config & dependencies:
+        // - https://github.com/hakimel/reveal.js#configuration
+        // - https://github.com/hakimel/reveal.js#dependencies
+        Reveal.initialize({
+            dependencies: [
+                { src: 'plugin/markdown/marked.js' },
+                { src: 'plugin/markdown/markdown.js' },
+                { src: 'plugin/notes/notes.js', async: true },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+            ]
+        });
+    </script>
+</body>
+
 </html>
